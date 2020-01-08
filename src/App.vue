@@ -24,35 +24,99 @@
 		</el-header>
 		<el-container>
 			<el-aside class="menucontainer">
-				<el-menu>
-					<el-menu-item>
+				<el-menu default-active="2"
+						@select="selectMenu">
+					<el-menu-item index="1">
 						<i></i>
 						<span>常态任务</span>
 					</el-menu-item>
-					<el-menu-item>
+					<el-menu-item index="2">
 						<i></i>
 						<span>今天</span>
 					</el-menu-item>
-					<el-menu-item>
+					<el-menu-item index="3">
 						<i></i>
 						<span>标签</span>
 					</el-menu-item>
-					<el-menu-item>
+					<el-menu-item index="4">
 						<i></i>
 						<span>项目</span>
+					</el-menu-item>
+					<el-menu-item index="5">
+						<i></i>
+						<span>已完成任务</span>
 					</el-menu-item>
 				</el-menu>
 			</el-aside>
 			<el-main style="background-color: #00FF00;">
 				<el-col :span="16">
-					<div class="contentcontainer">
-						<el-progress :text-inside="true" :stroke-width="26" :percentage="70"></el-progress>
+					<div v-if="showMenuIndex === '1'">
+						<el-row>
+							<span style="font-size: 20px;font-weight: bold;">待办事项</span>
+						</el-row>
+						<el-divider></el-divider>
+					</div>
+					<div class="contentcontainer" v-if="showMenuIndex === '2'">
+						<el-row>
+							<el-col :span="12">
+								<div>
+									<span style="font-size: 20px;font-weight: bold;">今日待办</span>
+								</div>
+								<div>
+									<span style="font-size: 15px;">{{today.getFullYear()+"年"+today.getMonth()+1+"月"+today.getDate()+"日"}}</span>
+								</div>
+							</el-col>
+							<el-col :span="4" :offset="8">
+								<el-progress type="circle" :percentage="100" width="60"></el-progress>
+							</el-col>
+						</el-row>
+						<el-divider></el-divider>
 						<TaskShow v-for="(taskItem,index) in taskList"
 								:content="taskItem.taskconent"
 								:key="index"
 								:flags="flags" 
 								@taskOperate="taskShowOp(arguments,index)">
 						</TaskShow>
+					</div>
+					<div v-if="showMenuIndex === '3'">
+						<el-row>
+							<span style="font-size: 20px;font-weight: bold;">标签管理</span>
+						</el-row>
+						<el-divider></el-divider>
+						<el-row>
+							<el-tag
+								:key="flag"
+								v-for="flag in flags"
+								closable
+								:disable-transitions="false"
+								@close="handleClose(flag)">
+								{{flag}}
+							</el-tag>
+							<el-input
+								class="input-new-tag"
+								v-if="addTagInputVisible"
+								v-model="addTagValue"
+								ref="saveTagInput"
+								size="small"
+								@keyup.enter.native="handleInputConfirm"
+								@blur="handleInputConfirm"
+							>
+							</el-input>
+							<el-button v-else class="button-new-tag" size="small" @click="showInput">+ New Tag</el-button>
+
+						</el-row>
+					</div>
+					<div v-if="showMenuIndex === '4'">
+						<el-row>
+							<span style="font-size: 20px;font-weight: bold;">项目</span>
+						</el-row>
+						<el-divider></el-divider>
+					</div>
+					<div v-if="showMenuIndex === '5'">
+						<el-row>
+							<span style="font-size: 20px;font-weight: bold;">已完成任务</span>
+						</el-row>
+						<el-divider></el-divider>
 					</div>
 				</el-col>
 				<el-col :span="8">
@@ -86,7 +150,11 @@ export default {
   },
   data() {
     return {
+		today: new Date(),
+		showMenuIndex: '2',
 		flags : ['工作','生活','学习','其它'],
+		addTagInputVisible: false,
+		addTagValue: '',
 		showAddDialog : false,
 		content: '测试内容',
 		taskList: [
@@ -100,6 +168,9 @@ export default {
     }
   },
   methods: {
+	selectMenu:function(key){
+		this.showMenuIndex = key;
+	},
 	taskShowOp: function(args,index){
 		if(1 === args[0].type){//保存编辑内容
 			this.taskList[index].taskconent = args[0].taskconent;
@@ -121,8 +192,25 @@ export default {
 	},
 	addTask: function(){
 		this.showAddDialog = true;
+	},
+	handleClose:function(tag) {
+		this.flags.splice(this.flags.indexOf(tag), 1);
+	},
+	showInput:function() {
+		this.addTagInputVisible = true;
+		this.$nextTick( ()=> {
+		this.$refs.saveTagInput.$refs.input.focus();
+		});
+	},
+	handleInputConfirm:function() {
+		let inputValue = this.addTagValue;
+		if (inputValue) {
+			this.flags.push(inputValue);
+		}
+		this.addTagInputVisible = false;
+		this.addTagValue = '';
 	}
-  }
+	}
 }
 </script>
 
@@ -178,4 +266,19 @@ export default {
 .is-selected {
     color: #1989FA;
 }
+.el-tag + .el-tag {
+    margin-left: 10px;
+  }
+  .button-new-tag {
+    margin-left: 10px;
+    height: 32px;
+    line-height: 30px;
+    padding-top: 0;
+    padding-bottom: 0;
+  }
+  .input-new-tag {
+    width: 90px;
+    margin-left: 10px;
+    vertical-align: bottom;
+  }
 </style>

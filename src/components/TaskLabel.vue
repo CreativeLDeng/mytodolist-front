@@ -1,42 +1,53 @@
 <template>
 	<el-card shadow="hover">
-		<el-checkbox v-model="checked" @change="completeTask">
-		</el-checkbox>
-		<span style="margin-left: 10px;" @click="editTask"> {{ content }}</span>
-		<el-popover
-			trigger="hover"
-			style="float: right;margin: auto;">
-			<el-row>
-				<el-col :span="24">
-					<el-button  type="text" 
-								icon="el-icon-delete-solid" 
-								style="width: 130px;"
-								@click="deleteTask">删除</el-button>
-				</el-col>
-			</el-row>
-			<el-row>
-				<el-col :span="6"><el-button type="text" icon="el-icon-date"></el-button> </el-col>
-				<el-col :span="6"><el-button type="text" icon="el-icon-refresh-left"></el-button></el-col>
-				<el-col :span="6"><el-button type="text" icon="el-icon-refresh-right"></el-button></el-col>
-				<el-col :span="6"><el-button type="text" icon="el-icon-d-arrow-right"></el-button></el-col>
-			</el-row>
-			<el-row>
-				<el-col :span="6"><el-button type="text" icon="el-icon-s-flag"></el-button></el-col>
-				<el-col :span="6"><el-button type="text" icon="el-icon-s-flag"></el-button></el-col>
-				<el-col :span="6"><el-button type="text" icon="el-icon-s-flag"></el-button></el-col>
-				<el-col :span="6"><el-button type="text" icon="el-icon-s-flag"></el-button></el-col>
-			</el-row>
-			<el-button slot="reference" icon="el-icon-s-operation" type="text"></el-button>
-		</el-popover>
-		<el-popover
-			trigger="hover"
-			style="float: right;margin: auto;"
-			width="100px">
-			<el-row v-for="(item,index) in flags" v-bind:key="index">
-				<el-button type="text" size="mini">{{ item }} ✔</el-button>
-			</el-row>
-			<el-button slot="reference" icon="el-icon-collection-tag" type="text"></el-button>
-		</el-popover>
+		<el-row>
+			<el-col :span="1">
+				<el-checkbox v-model="checked" @change="completeTask" style="margin-top: 8px;"></el-checkbox>
+			</el-col>
+			<el-col :span="21">
+				<div style="margin-top: 5px;" @click="editTask">
+					<span style="width: 100%;"> {{ content }}</span>
+				</div>
+			</el-col>
+			<el-col :span="1">
+				<el-popover
+					trigger="hover">
+					<el-row>
+						<el-col :span="24">
+							<el-button  type="text" 
+										icon="el-icon-delete-solid" 
+										style="width: 130px;"
+										@click="deleteTask">删除</el-button>
+						</el-col>
+					</el-row>
+					<el-row>
+						<el-col :span="6"><el-button type="text" icon="el-icon-date"></el-button> </el-col>
+						<el-col :span="6"><el-button type="text" icon="el-icon-refresh-left"></el-button></el-col>
+						<el-col :span="6"><el-button type="text" icon="el-icon-refresh-right"></el-button></el-col>
+						<el-col :span="6"><el-button type="text" icon="el-icon-d-arrow-right"></el-button></el-col>
+					</el-row>
+					<el-row>
+						<el-col :span="6"><el-button type="text" icon="el-icon-s-flag"></el-button></el-col>
+						<el-col :span="6"><el-button type="text" icon="el-icon-s-flag"></el-button></el-col>
+						<el-col :span="6"><el-button type="text" icon="el-icon-s-flag"></el-button></el-col>
+						<el-col :span="6"><el-button type="text" icon="el-icon-s-flag"></el-button></el-col>
+					</el-row>
+					<el-button slot="reference" icon="el-icon-s-operation" type="text"></el-button>
+				</el-popover>
+			</el-col>
+			<el-col :span="1">
+				<el-popover
+					trigger="hover">
+					<el-row v-for="(item,index) in flags" v-bind:key="index">
+						<el-button type="text" size="mini">{{ item }} ✔</el-button>
+					</el-row>
+					<el-button slot="reference" icon="el-icon-collection-tag" type="text"></el-button>
+				</el-popover>
+			</el-col>
+		</el-row>
+		<el-row>
+			<el-tag color="#f4f4f5" size="mini" style="margin-top: 0;">标签一</el-tag>
+		</el-row>
 	</el-card>
 </template>
 
