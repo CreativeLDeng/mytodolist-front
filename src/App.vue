@@ -67,7 +67,7 @@
 								</div>
 							</el-col>
 							<el-col :span="4" :offset="8">
-								<el-progress type="circle" :percentage="100" width="60"></el-progress>
+								<el-progress type="circle" :percentage="30" :width="60"></el-progress>
 							</el-col>
 						</el-row>
 						<el-divider></el-divider>
@@ -111,6 +111,15 @@
 							<span style="font-size: 20px;font-weight: bold;">项目</span>
 						</el-row>
 						<el-divider></el-divider>
+						<TaskProject v-for="(project,index) in projectList" :key=index 
+							:name="project.name"
+							:taskNum="project.taskNum"
+							:percentage="project.percentage"
+							:endDate="project.endDate">
+							<TaskShow v-for="(task,ind) in project.taskList" :key=ind
+										:content="task.taskconent">
+							</TaskShow>
+						</TaskProject>
 					</div>
 					<div v-if="showMenuIndex === '5'">
 						<el-row>
@@ -142,11 +151,13 @@
 <script>
 import TaskShow from './components/TaskShow.vue'
 import TaskAddDialog from './components/TaskAddDialog.vue'
+import TaskProject from './components/TaskProject.vue'
 export default {
   name: 'app',
   components: {
 	TaskShow,
-	TaskAddDialog
+	TaskAddDialog,
+	TaskProject
   },
   data() {
     return {
@@ -163,6 +174,22 @@ export default {
 			},
 			{
 				taskconent:"测试内容2"
+			}
+		],
+		projectList:[
+			{
+				name:'工程一',
+				endDate:'2019-01-01',
+				taskNum:2,
+				percentage:20,
+				taskList:[
+					{
+						taskconent:"测试内容1"
+					},
+					{
+						taskconent:"测试内容2"
+					}
+				]
 			}
 		]
     }
@@ -244,9 +271,6 @@ export default {
   font-family: 'Avenir', Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  /* text-align: center; */
-  /* color: #2c3e50; */
-  /* margin-top: 60px; */
 }
 .headerheight{
     height: 3.125rem;
@@ -269,16 +293,16 @@ export default {
 .el-tag + .el-tag {
     margin-left: 10px;
   }
-  .button-new-tag {
+.button-new-tag {
     margin-left: 10px;
     height: 32px;
     line-height: 30px;
     padding-top: 0;
     padding-bottom: 0;
-  }
-  .input-new-tag {
+}
+.input-new-tag {
     width: 90px;
     margin-left: 10px;
     vertical-align: bottom;
-  }
+}
 </style>
