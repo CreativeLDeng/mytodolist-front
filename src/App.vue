@@ -48,13 +48,19 @@
 					</el-menu-item>
 				</el-menu>
 			</el-aside>
-			<el-main style="background-color: #00FF00;">
+			<el-main style="background-color: #e7faff;">
 				<el-col :span="16">
 					<div v-if="showMenuIndex === '1'">
 						<el-row>
 							<span style="font-size: 20px;font-weight: bold;">待办事项</span>
 						</el-row>
 						<el-divider></el-divider>
+						<TaskShow v-for="(taskItem,index) in taskList"
+								:content="taskItem.taskconent"
+								:key="index"
+								:flags="flags" 
+								@taskOperate="taskShowOp(arguments,index)">
+						</TaskShow>
 					</div>
 					<div class="contentcontainer" v-if="showMenuIndex === '2'">
 						<el-row>
@@ -123,7 +129,17 @@
 					</div>
 					<div v-if="showMenuIndex === '5'">
 						<el-row>
-							<span style="font-size: 20px;font-weight: bold;">已完成任务</span>
+							<el-col :span="12">
+								<span style="font-size: 20px;font-weight: bold;">已完成任务</span>
+							</el-col>
+							<el-col :span="8" :offset="3">
+								<el-date-picker
+									v-model="week"
+									type="week"
+									size="small"
+									placeholder="选择周">
+								</el-date-picker>
+							</el-col>
 						</el-row>
 						<el-divider></el-divider>
 					</div>
@@ -191,7 +207,8 @@ export default {
 					}
 				]
 			}
-		]
+		],
+		week:''
     }
   },
   methods: {
