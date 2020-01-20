@@ -137,24 +137,42 @@
 									v-model="week"
 									type="week"
 									size="small"
+									format="yyyy 第 WW 周"
 									placeholder="选择周">
 								</el-date-picker>
 							</el-col>
 						</el-row>
 						<el-divider></el-divider>
+						<el-timeline :reverse="reverse">
+							<el-timeline-item
+							v-for="(dayItem, index) in weekCompletedTasks"
+							:key="index"
+							:timestamp="dayItem.completedDate"
+							placement="top"
+							type="primary"
+							value-format="yyyy-MM-dd">
+							<el-card shadow="hover">
+								<el-row v-for="(taskItem,taskIndex) in dayItem.dayCompletedTasks" :key="taskIndex">
+									<el-col :span="21">
+										<span>🔸 {{taskItem.taskName}}</span>
+									</el-col>
+									<el-col :span="3">
+										{{taskItem.completedTime}}
+									</el-col>
+								</el-row>
+							</el-card>
+							</el-timeline-item>
+						</el-timeline>
 					</div>
 				</el-col>
 				<el-col :span="8">
 					<div class="rightcontainer">
-						<el-calendar>
-							<template
-							slot="dateCell"
-							slot-scope="{date, data}">
-								<p :class="data.isSelected ? 'is-selected' : ''">
-									{{ data.day.split('-')[2] }} {{ data.isSelected ? '✔️' : ''}}
-								</p>
-							</template>
-						</el-calendar>
+						<div style="position: absolute;">
+							<calendar
+								:events="calendar.events"
+								:value="calendar.value">
+						</calendar>
+						</div>
 					</div>
 				</el-col>
 			</el-main>
@@ -168,12 +186,14 @@
 import TaskShow from './components/TaskShow.vue'
 import TaskAddDialog from './components/TaskAddDialog.vue'
 import TaskProject from './components/TaskProject.vue'
+import calendar from './components/calendar.vue'
 export default {
   name: 'app',
   components: {
 	TaskShow,
 	TaskAddDialog,
-	TaskProject
+	TaskProject,
+	calendar
   },
   data() {
     return {
@@ -208,7 +228,69 @@ export default {
 				]
 			}
 		],
-		week:''
+		reverse: true,
+		week:'2020-01-20',
+		weekCompletedTasks:[
+			{
+				dayCompletedTasks:[
+					{
+						taskName:'任务1',
+						completedTime:'15:32'
+					},
+					{
+						taskName:'任务2',
+						completedTime:'18:33'
+					}
+				],
+				completedDate:'2019-01-01',
+			},
+			{
+				dayCompletedTasks:[
+					{
+						taskName:'任务1',
+						completedTime:'15:32'
+					},
+					{
+						taskName:'任务2',
+						completedTime:'18:33'
+					}
+				],
+				completedDate:'2019-01-02',
+			},
+			{
+				dayCompletedTasks:[
+					{
+						taskName:'任务1',
+						completedTime:'15:32'
+					},
+					{
+						taskName:'任务2',
+						completedTime:'18:33'
+					}
+				],
+				completedDate:'2019-01-03',
+			}
+		],
+		calendar:{
+			value:[2020,1,20], //默认日期
+			// lunar:true, //显示农历
+			events:{
+				'2017-7-7':'$408',
+				'2017-7-20':'$408',
+				'2017-7-21':'$460',
+				'2017-7-22':'$500',
+			},
+			// select(value){
+			//     // console.log(value.toString());
+			// },
+			// selectMonth(month,year){
+			//     // console.log(year,month)
+			// },
+			// selectYear(year){
+			//     // console.log(year)
+			// },
+			timestamp:Date.now()
+		}
     }
   },
   methods: {
