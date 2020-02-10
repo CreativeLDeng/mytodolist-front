@@ -206,10 +206,26 @@ export default {
 		content: '测试内容',
 		taskList: [
 			{
-				taskconent:"测试内容1"
+				taskId:1,//任务id
+				taskconent:"测试内容1",//任务内容
+				taskDateTime:'',//任务日期时间
+				containTime:false,//是否包含时间
+				remindTime:'',//提醒时间
+				priority:1,//任务优先级
+				flags:[],//任务标签
+				projectId:'',//工程id
+				status:1//任务状态
 			},
 			{
-				taskconent:"测试内容2"
+				taskId:2,
+				taskconent:"测试内容2",
+				taskDateTime:'',
+				containTime:false,
+				remindTime:'',
+				priority:2,
+				flags:[],
+				projectId:'',
+				status:2
 			}
 		],
 		projectList:[
@@ -280,15 +296,6 @@ export default {
 				'2017-7-21':'$460',
 				'2017-7-22':'$500',
 			},
-			// select(value){
-			//     // console.log(value.toString());
-			// },
-			// selectMonth(month,year){
-			//     // console.log(year,month)
-			// },
-			// selectYear(year){
-			//     // console.log(year)
-			// },
 			timestamp:Date.now()
 		}
     }

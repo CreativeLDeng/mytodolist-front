@@ -3,7 +3,7 @@
 .calendar {
     margin:auto;
     width: 100%;
-    min-width:300px;
+    min-width:200px;
     background: #fff;
     font-family: "PingFang SC","Hiragino Sans GB","STHeiti","Microsoft YaHei","WenQuanYi Micro Hei",sans-serif;
     user-select:none;
@@ -75,7 +75,7 @@
     margin:2px !important;
     padding:0px 0;
     width: 14.28571429%;
-    height:44px;
+    height:26px;
     text-align: center;
     vertical-align: middle;
     font-size:14px;

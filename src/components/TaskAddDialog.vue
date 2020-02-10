@@ -6,7 +6,7 @@
 	:close-on-press-escape="false"
 	top="20vh"
 	:visible.sync="visibleDialog">
-		<el-input v-model="taskcontent"></el-input>
+		<!-- <el-input v-model="taskcontent"></el-input>
 		<div style="margin-top: 0.3125rem;">
 			<el-button size="medium" type="danger" @click="taskOp(1)">保存</el-button>
 			<el-button size="medium" @click="taskOp(0)">取消</el-button>
@@ -36,14 +36,19 @@
 				</el-row>
 				<el-button slot="reference" icon="el-icon-collection-tag" type="text"></el-button>
 			</el-popover>
+		</div> -->
+		<div>
+			<TaskEdit></TaskEdit>
 		</div>
 	</el-dialog>
 </template>
 
 <script>
+import TaskEdit from './TaskEdit.vue'
 export default {
 	name: 'TaskAddDialog',
 	components: {
+		TaskEdit
 	},
 	props: {
 		flags:{
